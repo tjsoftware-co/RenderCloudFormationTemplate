@@ -4,8 +4,7 @@ A simple python project that use power of Jinja2 for an easier cloudformation te
 
 ### Install
 
-`pip install git+ssh://git-codecommit.eu-central-1.amazonaws.com/v1/repos/RenderCloudFormationTemplate`
-
+`pip install -e git+https://github.com/tjsoftware-co/RenderCloudFormationTemplate.git@v1.0#egg=render-cloud-formation-template`
 ### Command Line Help
 
 ```bash
