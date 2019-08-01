@@ -23,6 +23,9 @@ optional arguments:
                         Template name to render
   --variables_dir VARIABLES_DIR
                         Dir with variables files
+  --files_dir FILES_DIR
+                        Dir with files
+
 ```
 
 ### TEMPLATE_DIR
@@ -84,6 +87,17 @@ In Jinija2 template variable `groups` going to be avaialble and can be used, for
       {"Ref":  "{{ group.resource_name }}"}{{ "," if not loop.last }}
       {% endfor %}
     ],
+```
+
+### Files Dir
+Directory with files that are going to added be add into template context as:
+```json
+{
+  "files_dir": {
+    "file_name": "base64",
+    "file_name2": "base64"
+  }
+}
 ```
 
 ### Command Line Usage

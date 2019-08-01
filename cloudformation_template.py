@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 from json import JSONDecodeError
@@ -10,10 +11,11 @@ class CloudFormationTemplate:
     Class Responsible to render a cloud formation template
     """
 
-    def __init__(self, template_dir='cloudformation', variables_dir='variables', json_indent=2):
+    def __init__(self, template_dir='cloudformation', variables_dir='variables', files_dir='files', json_indent=2):
         self.template_dir = template_dir
         self.variables_dir = variables_dir
         self.json_indent = json_indent
+        self.files_dir = files_dir
 
         self._env = None
         self._variables = None
@@ -41,11 +43,27 @@ class CloudFormationTemplate:
 
         return self._variables
 
+    def get_files(self):
+        """Read fiels from provided dir and put base64 of those files into dict 'file_name': 'base'"""
+        files_dict = {}
+        try:
+            filenames = os.listdir(self.files_dir)
+        except FileNotFoundError:
+            return files_dict
+
+        # get base64 of each of the file
+        for filename in filenames:
+            with open(os.path.join(self.files_dir, filename), 'r') as f:
+                data = f.read()
+                files_dict[filename] = base64.b64encode(data)
+        return files_dict
+
     def render_template(self, template_name):
         """
         Render and return provided template
         """
         template = self.env.get_template(template_name)
+        self.variables[self.files_dir] = self.get_files()
         rendered_template = template.render(**self.variables)
         return rendered_template
 

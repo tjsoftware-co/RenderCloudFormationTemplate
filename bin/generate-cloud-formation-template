@@ -7,12 +7,14 @@ parser = argparse.ArgumentParser(description='Generate Template command.')
 parser.add_argument('--template_dir', default='cloudformation', help='Dir with cloudformation templates')
 parser.add_argument('--template_name', help='Template name to render', required=True)
 parser.add_argument('--variables_dir', default='variables', help='Dir with variables files')
+parser.add_argument('--files_dir', default='files', help='Dir with files')
 
 args = parser.parse_args()
 
 c = CloudFormationTemplate(
     template_dir=args.template_dir,
-    variables_dir=args.variables_dir
+    variables_dir=args.variables_dir,
+    files_dir=args.files_dir
 )
 
 c.generate_json(template_name=args.template_name)
