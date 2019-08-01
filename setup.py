@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="render-cloud-formation-template",
-    version="1.0",
+    version="1.5",
     author="Tomasz Roszko",
     author_email="tomaszroszko@tjsoftware.co",
     description="A simple python project that use power of Jinja2 for an easier cloudformation temlate generation",

@@ -53,7 +53,7 @@ class CloudFormationTemplate:
 
         # get base64 of each of the file
         for filename in filenames:
-            with open(os.path.join(self.files_dir, filename), 'rb') as f:
+            with open(os.path.join(self.files_dir, filename), 'r') as f:
                 data = f.read()
                 encoded_bytes = base64.b64encode(data.encode("utf-8"))
                 files_dict[filename] = str(encoded_bytes, "utf-8")
