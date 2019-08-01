@@ -99,6 +99,23 @@ Directory with files that are going to added be add into template context as:
   }
 }
 ```
+This is usefull to put files into s3 bucket using cloudfront and `AWS::S3::Object` and `"Transform": "S3Objects"`
+Example use:
+```jinja2
+{
+  "Type": "AWS::S3::Object",
+  "Properties": {
+    "Target": {
+      "Bucket": {
+        "Ref": "BRSStandardBucket",
+        "Key": ".pylintrc"
+      }
+    },
+    "Base64Body": "{{ files.pylint }}"
+  }
+}
+```
+
 
 ### Command Line Usage
 
