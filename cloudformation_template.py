@@ -55,7 +55,8 @@ class CloudFormationTemplate:
         for filename in filenames:
             with open(os.path.join(self.files_dir, filename), 'rb') as f:
                 data = f.read()
-                files_dict[filename] = base64.b64encode(data)
+                encodedBytes = base64.b64encode(data.encode("utf-8"))
+                files_dict[filename] = str(encodedBytes, "utf-8")
         return files_dict
 
     def render_template(self, template_name):
