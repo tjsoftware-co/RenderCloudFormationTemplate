@@ -1,3 +1,7 @@
+"""
+All tests for s3 macros
+"""
+
 from .utils import _test_template
 
 

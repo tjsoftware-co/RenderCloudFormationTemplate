@@ -1,6 +1,9 @@
+"""
+Module with a core class responsible for rendering a template
+"""
+
 import json
 import os
-from json import JSONDecodeError
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -20,6 +23,9 @@ class CloudFormationTemplate:
 
     @property
     def env(self):
+        """
+        :return: jinja2 Environment
+        """
         if not self._env:
             self._env = Environment(
                 loader=FileSystemLoader([self.base_dir, self.template_dir], )
@@ -33,14 +39,18 @@ class CloudFormationTemplate:
 
     @property
     def variables(self):
+        """
+        :return: a dictionary with variables collected from variables_dir.
+        Each file in a directory is a key in returned dict.
+        """
         if not self._variables:
             self._variables = {}
 
             file_names = os.listdir(self.variables_dir)
             for file_name in file_names:
                 file_path = os.path.join(self.variables_dir, file_name)
-                with open(file_path, 'r') as f:
-                    variable_value = json.load(f)
+                with open(file_path, 'r') as file:
+                    variable_value = json.load(file)
                     variable_name = file_name.replace('.json', '')
                     self._variables[variable_name] = variable_value
 
@@ -61,11 +71,11 @@ class CloudFormationTemplate:
         try:
             template = self.render_template(template_name=template_name)
             json_template = json.loads(template)
-        except JSONDecodeError as e:
+        except json.JSONDecodeError as json_decode_eception:
             # save raw template as there was an issue with saving json
-            with open(template_name.replace('.template', '-error.json'), 'w') as f:
-                f.write(template)
-            raise e
+            with open(template_name.replace('.template', '-error.json'), 'w') as file:
+                file.write(template)
+            raise json_decode_eception
         else:
-            with open(template_name.replace('.template', '.json'), 'w') as f:
-                json.dump(json_template, f, indent=self.json_indent)
+            with open(template_name.replace('.template', '.json'), 'w') as file:
+                json.dump(json_template, file, indent=self.json_indent)

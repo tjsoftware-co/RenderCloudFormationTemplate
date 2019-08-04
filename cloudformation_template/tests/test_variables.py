@@ -1,3 +1,7 @@
+"""
+Tests for checking if variables are read correctly from variables_dir
+"""
+
 import os
 from cloudformation_template import CloudFormationTemplate
 

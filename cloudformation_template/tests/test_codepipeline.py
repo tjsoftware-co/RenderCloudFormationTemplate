@@ -1,3 +1,7 @@
+"""
+All tests for codepipeline macros
+"""
+
 from .utils import _test_template
 
 

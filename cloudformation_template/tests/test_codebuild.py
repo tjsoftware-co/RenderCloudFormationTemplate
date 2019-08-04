@@ -1,3 +1,7 @@
+"""
+All tests for codebuild macros
+"""
+
 from .utils import _test_template
 
 

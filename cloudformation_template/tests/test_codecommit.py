@@ -1,3 +1,7 @@
+"""
+All tests for codecommit macros
+"""
+
 from .utils import _test_template
 
 
