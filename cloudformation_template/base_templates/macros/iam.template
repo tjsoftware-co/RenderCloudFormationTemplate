@@ -42,3 +42,19 @@
   }
 }
 {% endmacro %}
+
+{% macro user(username, password, groups) %}
+{
+  "Type" : "AWS::IAM::User",
+  "Properties" : {
+      "Groups": [
+        {% for group in groups %}{"Ref":  "{{ group }}"}{{ "," if not loop.last }}{% endfor %}
+      ],
+      "LoginProfile" : {
+        "Password" : "{{ password }}",
+        "PasswordResetRequired" : true
+      },
+      "UserName" : "{{ username }}"
+    }
+}
+{% endmacro %}

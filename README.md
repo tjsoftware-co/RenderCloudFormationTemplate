@@ -164,6 +164,20 @@ Available macros and their usage:
 {% endblock %}
 ```
 
+* User with groups
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "User1": {{ iam.user(username="tomasz.roszko", password="test", groups=["DevOps", "Developers"]) }}
+    }
+{% endblock %}
+```
+
 ####S3
 
 * Bucket with default settings
