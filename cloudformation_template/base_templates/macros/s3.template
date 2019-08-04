@@ -1,0 +1,8 @@
+{% macro bucket(name) %}
+{
+  "Type" : "AWS::S3::Bucket",
+  "Properties" : {
+      "BucketName" : "{{ name }}"
+    }
+}
+{% endmacro %}

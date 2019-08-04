@@ -1,0 +1,123 @@
+{% macro cloudformation_pipeline(name, role, repository, s3, branch='master') %}
+{
+  "Type": "AWS::CodePipeline::Pipeline",
+  "Properties": {
+    "Name": "{{ name }}",
+    "RoleArn": {
+      "Fn::GetAtt": [
+        "{{ role }}",
+        "Arn"
+      ]
+    },
+    "Stages": [
+      {
+        "Name": "Source",
+        "Actions": [
+          {
+            "Name": "SourceAction",
+            "ActionTypeId": {
+              "Category": "Source",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "CodeCommit"
+            },
+            "OutputArtifacts": [
+              {
+                "Name": "{{ name }}SourceOutput"
+              }
+            ],
+            "Configuration": {
+              "BranchName": "{{ branch }}",
+              "RepositoryName": "{{ repository }}",
+              "PollForSourceChanges": false
+            },
+            "RunOrder": 1
+          }
+        ]
+      },
+      {
+        "Name": "Build",
+        "Actions": [
+          {
+            "Name": "Build",
+            "InputArtifacts": [
+              {
+                "Name": "{{ name }}SourceOutput"
+              }
+            ],
+            "OutputArtifacts": [
+              {
+                "Name": "{{ name }}BuildOutput"
+              }
+            ],
+            "ActionTypeId": {
+              "Category": "Build",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "CodeBuild"
+            },
+            "Configuration": {
+              "ProjectName": "{{ name }}_Build"
+            },
+            "RunOrder": 1
+          }
+        ]
+      },
+      {
+        "Name": "Deploy",
+        "Actions": [
+          {
+            "Name": "Deploy",
+            "InputArtifacts": [
+              {
+                "Name": "{{ name }}BuildOutput"
+              }
+            ],
+            "ActionTypeId": {
+              "Category": "Deploy",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "CloudFormation"
+            },
+            "Configuration": {
+              "ActionMode": "CHANGE_SET_REPLACE",
+              "StackName": "{{ name }}Stack",
+              "ChangeSetName": "{{ name }}ChangeSet",
+              "TemplatePath": "{{ name }}BuildOutput::ci.yaml",
+              "Capabilities":  "CAPABILITY_IAM,CAPABILITY_NAMED_IAM",
+              "RoleArn": {
+                "Fn::GetAtt": [
+                  "{{ role }}",
+                  "Arn"
+                ]
+              }
+            },
+            "RunOrder": 1
+          },
+          {
+            "Name": "Execute",
+            "ActionTypeId": {
+              "Category": "Deploy",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "CloudFormation"
+            },
+            "Configuration": {
+              "ActionMode": "CHANGE_SET_EXECUTE",
+              "StackName": "{{ name }}Stack",
+              "ChangeSetName": "{{ name }}ChangeSet"
+            },
+            "RunOrder": 2
+          }
+        ]
+      }
+    ],
+    "ArtifactStore": {
+      "Type": "S3",
+      "Location": {
+        "Ref": "{{ s3 }}"
+      }
+    }
+  }
+}
+{% endmacro %}

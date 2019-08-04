@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/codebuild.template" as codebuild %}
+
+{% block content %}
+    "Resources": {
+        "Build1": {{ codebuild.codepipeline_build(name="Build1", role="RoleRef", description="Build Description") }}
+    }
+{% endblock %}

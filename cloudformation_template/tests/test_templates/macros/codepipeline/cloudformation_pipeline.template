@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/codepipeline.template" as codepipeline %}
+
+{% block content %}
+    "Resources": {
+        "Build1": {{ codepipeline.cloudformation_pipeline(name="Pipeline1", role="Role1", repository="MyRepo", s3="ArtiactStore", branch="master") }}
+    }
+{% endblock %}

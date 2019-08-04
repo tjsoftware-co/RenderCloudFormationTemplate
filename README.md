@@ -127,4 +127,85 @@ Use `aws cloudformation validate-template --template-body file://blueriders_aws.
 Command going to produce `blueriders_aws-error.json` file if rendered template is not a valid json.
 
 
-### Macros
+###Macros
+
+Macros can be used to build CloudFormation templates easy and fast.
+Available macros and their usage:
+
+####CodeCommit
+
+* CodeCommit Repository
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/codecommit.template" as codecommit %}
+
+{% block content %}
+    "Resources": {
+        "Repository1": {{ codecommit.repository(name=repositories.Repository1.name, description=repositories.Repository1.description) }}
+    }
+{% endblock %}
+```
+
+####IAM
+
+* Role with assigned policy
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Role1": {{ iam.role(name="Role1", services=["codepipeline.amazonaws.com", "codebuild.amazonaws.com"], actions=["cloudformation:*", "s3:*"]) }}
+    }
+{% endblock %}
+```
+
+####S3
+
+* Bucket with default settings
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/s3.template" as s3 %}
+
+{% block content %}
+    "Resources": {
+        "Bucket1": {{ s3.bucket(name="bucket1") }}
+    }
+{% endblock %}
+```
+
+####CodeBuild
+
+* CodeBuild Project use in codepipeline artifact.
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/codebuild.template" as codebuild %}
+
+{% block content %}
+    "Resources": {
+        "Build1": {{ codebuild.codepipeline_build(name="Build1", role="RoleRef", description="Build Description") }}
+    }
+{% endblock %}
+```
+
+####CodePipeline
+
+* Pipeline for CI / CD for CloudFormation templates
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/codepipeline.template" as codepipeline %}
+
+{% block content %}
+    "Resources": {
+        "Build1": {{ codepipeline.cloudformation_pipeline(name="Pipeline1", role="Role1", repository="MyRepo", s3="ArtiactStore", branch="master") }}
+    }
+{% endblock %}
+``` 

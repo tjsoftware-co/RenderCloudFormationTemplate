@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Role1": {{ iam.role(name="Role1", services=["codepipeline.amazonaws.com", "codebuild.amazonaws.com"], actions=["cloudformation:*", "s3:*"]) }}
+    }
+{% endblock %}

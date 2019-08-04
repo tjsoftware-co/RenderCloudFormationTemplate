@@ -1,0 +1,44 @@
+{% macro role(name, services, actions, resource="*") %}
+{
+  "Type": "AWS::IAM::Role",
+  "Properties": {
+    "RoleName": "{{ name }}",
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": [
+              {% for service in services %}
+                  "{{ service }}"{% if not loop.last %},{% endif %}
+              {% endfor %}
+            ]
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    },
+    "Path": "/",
+    "Policies": [
+      {
+        "PolicyName": "{{ name }}-Policy",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                {% for action in actions %}
+                    "{{ action }}"{% if not loop.last %},{% endif %}
+                {% endfor %}
+              ],
+              "Resource": "{{ resource }}"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+{% endmacro %}

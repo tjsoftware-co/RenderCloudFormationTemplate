@@ -1,0 +1,24 @@
+{% macro codepipeline_build(name, role, description) %}
+{
+  "Type" : "AWS::CodeBuild::Project",
+  "Properties" : {
+    "Artifacts" : {
+      "Type" : "CODEPIPELINE"
+    },
+    "Description" : "{{ description }}",
+    "Environment" : {
+      "ComputeType" : "BUILD_GENERAL1_SMALL",
+      "Image" : "aws/codebuild/standard:2.0-1.11.0",
+      "ImagePullCredentialsType" : "CODEBUILD",
+      "Type" : "LINUX_CONTAINER"
+    },
+    "Name" : "{{ name }}_Build",
+    "ServiceRole" : {
+      "Ref": "{{ role }}"
+    },
+    "Source" : {
+      "Type" : "CODEPIPELINE"
+    }
+  }
+}
+{% endmacro %}
