@@ -1,0 +1,10 @@
+{% extends "base.template" %}
+
+{% import "macros/codecommit.template" as codecommit %}
+
+{% block content %}
+    "Resources": {
+        "Repository1": {{ codecommit.repository(name=repositories.Repository1.name, description=repositories.Repository1.description) }},
+        "Repository2": {{ codecommit.repository(name=repositories.Repository2.name, description=repositories.Repository2.description) }}
+    }
+{% endblock %}

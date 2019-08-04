@@ -1,0 +1,9 @@
+{% macro repository(name, description) %}
+{
+  "Type" : "AWS::CodeCommit::Repository",
+  "Properties" : {
+      "RepositoryDescription" : "{{ description }}",
+      "RepositoryName" : "{{ name }}"
+    }
+}
+{% endmacro %}

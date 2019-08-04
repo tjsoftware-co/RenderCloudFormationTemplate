@@ -1,0 +1,10 @@
+{
+    "Repository1": {
+        "Name": "Repo1",
+        "Description": "Description1"
+    },
+    "Repository2": {
+        "Name": "Repo2",
+        "Description": "Description2"
+    }
+}

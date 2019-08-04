@@ -1,0 +1,5 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "AWS Setup for BlueRider.Software for Roles, Groups, Policies and Users",
+  {% block content %}{% endblock %}
+}

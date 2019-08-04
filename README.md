@@ -23,9 +23,6 @@ optional arguments:
                         Template name to render
   --variables_dir VARIABLES_DIR
                         Dir with variables files
-  --files_dir FILES_DIR
-                        Dir with files
-
 ```
 
 ### TEMPLATE_DIR

@@ -3,3 +3,7 @@
 build
 *.egg-info
 *.pyc
+test.json
+test-error.json
+dist
+MANIFEST
