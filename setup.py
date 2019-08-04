@@ -4,7 +4,7 @@ files = ["base_templates/*", "base_templates/macros/*"]
 
 setup(
     name="render-cloud-formation-template",
-    version="2.0",
+    version="v2.0",
     author="Tomasz Roszko",
     author_email="tomaszroszko@tjsoftware.co",
     description="A simple python project that use power of Jinja2 for an easier cloudformation temlate generation",

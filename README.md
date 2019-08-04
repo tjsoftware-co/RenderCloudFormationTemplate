@@ -125,3 +125,6 @@ Command going to produce `blueriders_aws.json` file if rendered template is a va
 Use `aws cloudformation validate-template --template-body file://blueriders_aws.json` to check that. 
 
 Command going to produce `blueriders_aws-error.json` file if rendered template is not a valid json.
+
+
+### Macros
