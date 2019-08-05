@@ -14,9 +14,9 @@
         "EnvironmentVariables": [
         {% for env_var in env_variables %}
           {
-            "Name" : {{ env_var.name }},
-            "Type" : {{ env_var.type }},
-            "Value" : {{ env_var.value }}
+            "Name" : "{{ env_var.name }}",
+            "Type" : "{{ env_var.type }}",
+            "Value" : "{{ env_var.value }}"
           }
         {% endfor %}
         ],
