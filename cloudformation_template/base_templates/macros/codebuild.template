@@ -17,7 +17,7 @@
             "Name" : "{{ env_var.name }}",
             "Type" : "{{ env_var.type }}",
             "Value" : "{{ env_var.value }}"
-          }
+          }{% if not loop.last %},{% endif %}
         {% endfor %}
         ],
       {% endif %}
