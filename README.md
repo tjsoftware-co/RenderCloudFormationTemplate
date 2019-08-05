@@ -192,6 +192,19 @@ Available macros and their usage:
 {% endblock %}
 ```
 
+* Policy with permission to use specific codecommit repository
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Policy1": {{ iam.codecommit_repository_policy(repository_name="Test1", groups=["Group1", "Group2"]) }}
+    }
+{% endblock %}
+
 ####S3
 
 * Bucket with default settings

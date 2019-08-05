@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Policy1": {{ iam.codecommit_repository_policy(repository_name="Test1", groups=["Group1", "Group2"]) }}
+    }
+{% endblock %}

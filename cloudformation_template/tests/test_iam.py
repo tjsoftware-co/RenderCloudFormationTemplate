@@ -31,3 +31,10 @@ def test_policy_template():
     Test if policy template is valid
     """
     _test_template('macros/iam/policy.template')
+
+
+def test_codecommit_repository_policy_template():
+    """
+    Test if policy for codecommit repository is correctly rendered
+    """
+    _test_template('macros/iam/codecommit_repository_policy.template')

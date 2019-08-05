@@ -95,3 +95,69 @@
   }
 }
 {% endmacro %}
+
+{% macro codecommit_repository_policy(repository_name, groups) %}
+{
+  "Type": "AWS::IAM::Policy",
+  "Properties": {
+    "PolicyName": "BRS-Repository-{{ repository_name }}",
+    "Groups": [
+      {% for group in groups %}
+      {"Ref":  "{{ group }}"}{{ "," if not loop.last }}
+      {% endfor %}
+    ],
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "codecommit:BatchGet*",
+            "codecommit:BatchDescribe*",
+            "codecommit:Get*",
+            "codecommit:List*",
+            "codecommit:Create*",
+            "codecommit:DeleteBranch",
+            "codecommit:DeleteFile",
+            "codecommit:Describe*",
+            "codecommit:Put*",
+            "codecommit:Post*",
+            "codecommit:Merge*",
+            "codecommit:TagResource",
+            "codecommit:Test*",
+            "codecommit:UntagResource",
+            "codecommit:Update*",
+            "codecommit:GitPull",
+            "codecommit:GitPush"
+          ],
+          "Resource": "arn:aws:codecommit:*:*:{{ repository_name }}"
+        },
+        {
+          "Sid": "CloudWatchEventsCodeCommitRulesAccess",
+          "Effect": "Allow",
+          "Action": [
+            "events:DeleteRule",
+            "events:DescribeRule",
+            "events:DisableRule",
+            "events:EnableRule",
+            "events:PutRule",
+            "events:PutTargets",
+            "events:RemoveTargets",
+            "events:ListTargetsByRule"
+          ],
+          "Resource": "arn:aws:events:*:*:rule/codecommit:*:*:{{ repository_name }}"
+        },
+        {
+          "Sid": "SNSTopicAndSubscriptionAccess",
+          "Effect": "Allow",
+          "Action": [
+            "sns:Subscribe",
+            "sns:Unsubscribe"
+          ],
+          "Resource": "arn:aws:sns:*:*:codecommit:*:*:{{ repository_name }}"
+        }
+      ]
+    }
+  }
+}
+{% endmacro %}

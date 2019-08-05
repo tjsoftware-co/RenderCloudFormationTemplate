@@ -1,4 +1,4 @@
-{% macro codepipeline_build(name, role, description) %}
+{% macro codepipeline_build(name, role, description, env_variables=None) %}
 {
   "Type" : "AWS::CodeBuild::Project",
   "Properties" : {
@@ -10,6 +10,17 @@
       "ComputeType" : "BUILD_GENERAL1_SMALL",
       "Image" : "aws/codebuild/standard:2.0-1.11.0",
       "ImagePullCredentialsType" : "CODEBUILD",
+      {% if env_variables %}
+        "EnvironmentVariables": [
+        {% for env_var in env_variables %}
+          {
+            "Name" : {{ env_var.name }},
+            "Type" : {{ env_var.type }},
+            "Value" : {{ env_var.value }}
+          }
+        {% endfor %}
+        ],
+      {% endif %}
       "Type" : "LINUX_CONTAINER"
     },
     "Name" : "{{ name }}_Build",
