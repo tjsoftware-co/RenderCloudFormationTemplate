@@ -1,0 +1,9 @@
+{
+  "build_variables": [
+    {
+      "name": "Name1",
+      "type": "PLAINTEXT",
+      "value": "Test1"
+    }
+  ]
+}

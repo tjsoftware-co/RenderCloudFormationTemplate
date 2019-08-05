@@ -10,3 +10,10 @@ def test_codepipeline_build_template():
     Test if codepipeline build template is valid
     """
     _test_template('macros/codebuild/codepipeline_build.template')
+
+
+def test_codepipeline_build_with_variables_template():
+    """
+    Test if codepipeline build template is valid
+    """
+    _test_template('macros/codebuild/codepipeline_build_with_variables.template')
