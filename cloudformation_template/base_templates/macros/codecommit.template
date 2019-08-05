@@ -1,9 +1,16 @@
-{% macro repository(name, description) %}
+{% macro repository(name, description, s3=None, s3_key=None) %}
 {
   "Type" : "AWS::CodeCommit::Repository",
   "Properties" : {
       "RepositoryDescription" : "{{ description }}",
-      "RepositoryName" : "{{ name }}"
-    }
+      "RepositoryName" : "{{ name }}"{% if s3 %},
+      "Code": {
+          "S3": {
+              "Bucket": "{{ s3 }}",
+              "Key": "{{ s3_key }}"
+          }
+      }
+      {% endif %}
+  }
 }
 {% endmacro %}
