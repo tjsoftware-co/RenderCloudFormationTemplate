@@ -178,6 +178,20 @@ Available macros and their usage:
 {% endblock %}
 ```
 
+* Group
+
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Group1": {{ iam.group(name="Group1") }}
+    }
+{% endblock %}
+```
+
 ####S3
 
 * Bucket with default settings

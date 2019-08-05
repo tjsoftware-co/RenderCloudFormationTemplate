@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Policy1": {{ iam.policy(name="Policy1", groups=["GroupRef1", "GroupRef2"], actions=["codecommit:*", "iam:*"], resource="*") }}
+    }
+{% endblock %}

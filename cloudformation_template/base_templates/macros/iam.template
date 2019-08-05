@@ -58,3 +58,40 @@
     }
 }
 {% endmacro %}
+
+{% macro group(name) %}
+{
+  "Type": "AWS::IAM::Group",
+  "Properties": {
+    "GroupName": "{{ name }}"
+  }
+}
+{% endmacro %}
+
+{% macro policy(name, groups, actions, resource="*") %}
+{
+  "Type": "AWS::IAM::Policy",
+  "Properties": {
+    "PolicyName": "{{ name }}",
+    "Groups": [
+      {% for group in groups %}
+      {"Ref":  "{{ group }}"}{{ "," if not loop.last }}
+      {% endfor %}
+    ],
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+         {
+          "Effect": "Allow",
+          "Action": [
+            {% for action in actions %}
+                "{{ action }}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ],
+          "Resource": "{{ resource }}"
+        }
+      ]
+    }
+  }
+}
+{% endmacro %}

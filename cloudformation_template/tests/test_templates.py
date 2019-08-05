@@ -11,14 +11,14 @@ from .utils import _test_template
 
 def test_valid_template():
     """
-    Test if valid template is correct saved
+    Test if valid template is correctly rendered - as a proper json
     """
     _test_template('test.template')
 
 
 def test_invalid_template():
     """
-    Test if invalid template is rendered
+    Test if JSONDecodeError is raised when template is not a valid json
     """
     with pytest.raises(json.JSONDecodeError):
         _test_template('test_error.template')
