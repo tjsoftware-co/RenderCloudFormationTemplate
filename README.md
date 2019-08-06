@@ -250,3 +250,18 @@ Available macros and their usage:
     }
 {% endblock %}
 ``` 
+
+####Events
+
+* Event for starting pipeline after codecommit push
+```jinja2
+{% extends "base.template" %}
+
+{% import "macros/events.template" as events %}
+
+{% block content %}
+    "Resources": {
+        "Event1": {{ events.codecommit_pipeline_rule(repository="Repo1", branch="master", pipeline="Pipeline1", role="Role1") }}
+    }
+{% endblock %}
+```
