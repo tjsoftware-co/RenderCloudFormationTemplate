@@ -121,3 +121,75 @@
   }
 }
 {% endmacro %}
+
+{% macro codecommit_to_s3(name, role, repository, s3, target_s3, branch="master") %}
+{
+  "Type": "AWS::CodePipeline::Pipeline",
+  "Properties": {
+    "Name": "{{ name }}",
+    "RoleArn": {
+      "Fn::GetAtt": [
+        "{{ role }}",
+        "Arn"
+      ]
+    },
+    "Stages": [
+      {
+        "Name": "Source",
+        "Actions": [
+          {
+            "Name": "SourceAction",
+            "ActionTypeId": {
+              "Category": "Source",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "CodeCommit"
+            },
+            "OutputArtifacts": [
+              {
+                "Name": "{{ name }}SourceOutput"
+              }
+            ],
+            "Configuration": {
+              "BranchName": "{{ branch }}",
+              "RepositoryName": "{{ repository }}",
+              "PollForSourceChanges": false
+            },
+            "RunOrder": 1
+          }
+        ]
+      },
+      {
+        "Name": "Deploy",
+        "Actions": [
+          {
+            "Name": "Deploy",
+            "ActionTypeId": {
+              "Category": "Deploy",
+              "Owner": "AWS",
+              "Version": 1,
+              "Provider": "S3"
+            },
+            "InputArtifacts": [
+              {
+                "Name": "{{ name }}SourceOutput"
+              }
+            ],
+            "Configuration": {
+              "BucketName": "{{ target_s3 }}",
+              "Extract": "true"
+            },
+            "RunOrder": 1
+          }
+        ]
+      }
+    ],
+    "ArtifactStore": {
+      "Type": "S3",
+      "Location": {
+        "Ref": "{{ s3 }}"
+      }
+    }
+  }
+}
+{% endmacro %}

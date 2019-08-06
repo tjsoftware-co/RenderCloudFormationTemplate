@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/codepipeline.template" as codepipeline %}
+
+{% block content %}
+    "Resources": {
+        "Pipeline1": {{ codepipeline.codecommit_to_s3(name="Pipeline1", role="Role1", repository="Repo1", s3="BucketArtifact", target_s3="BucketWithStandardsToBeDeployed", branch="master") }}
+    }
+{% endblock %}
