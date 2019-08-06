@@ -1,4 +1,4 @@
-{% macro cloudformation_pipeline(name, role, repository, s3, branch='master') %}
+{% macro cloudformation_pipeline(name, role, repository, s3, branch="master", outputtemplate="outputtemplate.yaml") %}
 {
   "Type": "AWS::CodePipeline::Pipeline",
   "Properties": {
@@ -83,7 +83,7 @@
               "ActionMode": "CHANGE_SET_REPLACE",
               "StackName": "{{ name }}Stack",
               "ChangeSetName": "{{ name }}ChangeSet",
-              "TemplatePath": "{{ name }}BuildOutput::ci.yaml",
+              "TemplatePath": "{{ name }}BuildOutput::{{ outputtemplate }}",
               "Capabilities":  "CAPABILITY_IAM,CAPABILITY_NAMED_IAM",
               "RoleArn": {
                 "Fn::GetAtt": [
