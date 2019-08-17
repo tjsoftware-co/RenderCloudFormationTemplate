@@ -24,3 +24,10 @@ def test_website_redirect_template():
     Test if s3 bucket created correct website bucket that redirects all traffic to another bucket
     """
     _test_template('macros/s3/website_redirect.template')
+
+
+def test_website_bucket_policy_template():
+    """
+    Test if s3 website bucket policy template works
+    """
+    _test_template('macros/s3/website_bucket_policy.template')

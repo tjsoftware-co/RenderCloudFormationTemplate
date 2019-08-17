@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/s3.template" as s3 %}
+
+{% block content %}
+    "Resources": {
+        "Policy1": {{ s3.website_bucket_policy(id="bucket_policy", bucket="bucket1") }}
+    }
+{% endblock %}
