@@ -1,0 +1,29 @@
+{
+    "Type": "AWS::Route53::RecordSetGroup",
+    "Properties": {
+        "HostedZoneName": {
+            "Fn::Join": ["", [{"Ref": "RootDomainName"}, "."]]
+        },
+        "Comment": "Zone apex alias.",
+        "RecordSets": [
+            {
+                "Name": {"Ref": "RootDomainName"},
+                "Type": "A",
+                "AliasTarget": {
+                    "HostedZoneId": {"Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "S3hostedzoneID"]},
+                    "DNSName": {"Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "websiteendpoint"]}
+                }
+            },
+            {
+                "Name": {
+                    "Fn::Join": ["", ["www.", {"Ref":"RootDomainName"}]]
+                },
+                "Type": "CNAME",
+                "TTL" : "900",
+                "ResourceRecords" : [
+                    {"Fn::GetAtt":["WWWBucket", "DomainName"]}
+                ]
+            }
+        ]
+    }
+}

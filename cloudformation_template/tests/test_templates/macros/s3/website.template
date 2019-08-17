@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/s3.template" as s3 %}
+
+{% block content %}
+    "Resources": {
+        "Bucket1": {{ s3.website(domain_name="bucket1") }}
+    }
+{% endblock %}

@@ -6,3 +6,34 @@
     }
 }
 {% endmacro %}
+
+{% macro website(domain_name, index_document="index.html", error_document="404.html") %}
+{
+    "Type": "AWS::S3::Bucket",
+    "Properties": {
+        "BucketName": "{{ domain_name }}",
+        "AccessControl": "PublicRead",
+        "WebsiteConfiguration": {
+            "IndexDocument": "{{ index_document }}",
+            "ErrorDocument": "{{ error_document }}"
+        }
+    }
+}
+{% endmacro %}
+
+{% macro website_redirect(domain_name, root_bucket, subdomain="www") %}
+{
+    "Type": "AWS::S3::Bucket",
+    "Properties": {
+        "BucketName": {
+            "Fn::Join": ["", ["{{ subdomain }}.", "{{ domain_name }}"]]
+        },
+        "AccessControl": "BucketOwnerFullControl",
+        "WebsiteConfiguration": {
+            "RedirectAllRequestsTo": {
+                "HostName": {"Ref": "{{ root_bucket }}"}
+            }
+        }
+    }
+}
+{% endmacro %}
