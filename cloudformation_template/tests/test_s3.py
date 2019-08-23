@@ -31,3 +31,10 @@ def test_website_bucket_policy_template():
     Test if s3 website bucket policy template works
     """
     _test_template('macros/s3/website_bucket_policy.template')
+
+
+def s3_bucket_policy_template():
+    """
+    Test if s3 bucket policy template works
+    """
+    _test_template('macros/s3/s3_bucket_policy.template')

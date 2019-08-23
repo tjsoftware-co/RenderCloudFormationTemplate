@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/iam.template" as iam %}
+
+{% block content %}
+    "Resources": {
+        "Policy1": {{ iam.s3_bucket_policy(bucket="Test1", groups=["Group1", "Group2"]) }}
+    }
+{% endblock %}

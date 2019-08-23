@@ -161,3 +161,37 @@
   }
 }
 {% endmacro %}
+
+{% macro s3_bucket_policy(bucket, groups) %}
+{
+  "Type": "AWS::IAM::Policy",
+  "Properties": {
+    "PolicyName": "BRS-Bucket-{{ bucket }}",
+    "Groups": [
+      {% for group in groups %}
+      {"Ref":  "{{ group }}"}{{ "," if not loop.last }}
+      {% endfor %}
+    ],
+    "PolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:ListAllMyBuckets",
+            "s3:GetBucketLocation",
+          ],
+          "Resource": "arn:aws:s3:::*"
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:*"
+          ],
+          "Resource": "arn:aws:s3:::{{ bucket }}/*"
+        }
+      ]
+    }
+  }
+}
+{% endmacro %}
