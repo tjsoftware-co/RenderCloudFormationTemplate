@@ -179,7 +179,7 @@
           "Effect": "Allow",
           "Action": [
             "s3:ListAllMyBuckets",
-            "s3:GetBucketLocation",
+            "s3:GetBucketLocation"
           ],
           "Resource": "arn:aws:s3:::*"
         },

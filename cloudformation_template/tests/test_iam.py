@@ -33,8 +33,8 @@ def test_policy_template():
     _test_template('macros/iam/policy.template')
 
 
-def test_codecommit_repository_policy_template():
+def test_s3_bucket_policy_template():
     """
-    Test if policy for codecommit repository is correctly rendered
+    Test if s3 bucket policy template works
     """
-    _test_template('macros/iam/codecommit_repository_policy.template')
+    _test_template('macros/iam/s3_bucket_policy.template')
