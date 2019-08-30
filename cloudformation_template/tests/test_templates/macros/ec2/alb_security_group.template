@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/ec2.template" as ec2 %}
+
+{% block content %}
+    "Resources": {
+        "Ec2": {{ ec2.alb_security_group(name="SecurityGroup1", description="Description2") }}
+    }
+{% endblock %}

@@ -1,0 +1,49 @@
+{% macro alb_security_group(name, description) %}
+{
+  "Type" : "AWS::EC2::SecurityGroup",
+  "Properties" : {
+      "GroupDescription" : "{{ name }}",
+      "GroupName" : "{{ description }}",
+      "SecurityGroupEgress" : [{
+         "IpProtocol" : "tcp",
+         "FromPort" : 80,
+         "ToPort" : 80,
+         "CidrIp" : "0.0.0.0/0"
+      }],
+      "SecurityGroupIngress" : [{
+         "IpProtocol" : "tcp",
+         "FromPort" : 80,
+         "ToPort" : 80,
+         "CidrIp" : "0.0.0.0/0"
+      }]
+  }
+}
+{% endmacro %}
+
+{% macro container_instances_security_group(name, description, alb_security_group) %}
+{
+  "Type" : "AWS::EC2::SecurityGroup",
+  "Properties" : {
+      "GroupDescription" : "{{ name }}",
+      "GroupName" : "{{ description }}",
+      "SecurityGroupEgress" : [{
+         "IpProtocol" : "tcp",
+         "FromPort" : 80,
+         "ToPort" : 80,
+         "CidrIp" : "0.0.0.0/0"
+      }],
+      "SecurityGroupIngress" : [{
+         "IpProtocol" : "tcp",
+         "FromPort" : 80,
+         "ToPort" : 80,
+         "CidrIp" : "0.0.0.0/0"
+      },
+      {
+         "IpProtocol" : "-1",
+         "FromPort" : 0,
+         "ToPort" : 65535,
+         "SourceSecurityGroupName": "{{ alb_security_group }}"
+      }]
+  }
+}
+{% endmacro %}
