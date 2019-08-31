@@ -1,3 +1,60 @@
+{% macro vpc(cidr, name, dns_hostnames="true", dns_support="true") %}
+{
+  "Type" : "AWS::EC2::VPC",
+  "Properties" : {
+      "CidrBlock" : "{{ cidr }}",
+      "EnableDnsHostnames" : {{ dns_hostnames }},
+      "EnableDnsSupport" : {{ dns_support }},
+      "Tags" : [
+        {
+          "Key" : "name",
+          "Value" : "{{ name }}"
+        }
+    ]}
+}
+{% endmacro %}
+{% macro internet_gateway(name) %}
+{
+  "Type" : "AWS::EC2::InternetGateway",
+  "Properties" : {
+      "Tags" : [{
+        "Key": "name",
+        "Value": "{{ name }}"
+      }]
+    }
+}
+{% endmacro %}
+{% macro internet_gateway_attachment(internet_gateway, vpc) %}
+{
+  "Type" : "AWS::EC2::VPCGatewayAttachment",
+  "Properties" : {
+      "InternetGatewayId" : {
+        "Ref": "{{ internet_gateway }}"
+      },
+      "VpcId" : {
+        "Ref": "{{ vpc }}"
+      }
+    }
+}
+{% endmacro %}
+{% macro subnet(name, vpc, cidr, is_public="true") %}
+{
+  "Type" : "AWS::EC2::Subnet",
+  "Properties" : {
+      "CidrBlock" : "{{ cidr }}",
+      "MapPublicIpOnLaunch" : {{ is_public }},
+      "VpcId" : {
+        "Ref": "{{ vpc }}"
+      },
+      "Tags": [
+        {
+          "Key": "name",
+          "Value": "{{ name }}"
+        }
+      ]
+    }
+}
+{% endmacro %}
 {% macro alb_security_group(name, description) %}
 {
   "Type" : "AWS::EC2::SecurityGroup",

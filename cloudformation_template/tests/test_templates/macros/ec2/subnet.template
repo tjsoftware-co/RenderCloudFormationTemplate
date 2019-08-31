@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/ec2.template" as ec2 %}
+
+{% block content %}
+    "Resources": {
+        "Ec2": {{ ec2.subnet(name="dev", cidr="10.192.0.0/16", vpc="ref_vpc", is_public="true") }}
+    }
+{% endblock %}

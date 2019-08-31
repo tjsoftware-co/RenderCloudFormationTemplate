@@ -1,0 +1,9 @@
+{% extends "base.template" %}
+
+{% import "macros/ec2.template" as ec2 %}
+
+{% block content %}
+    "Resources": {
+        "Ec2": {{ ec2.internet_gateway(name="dev") }}
+    }
+{% endblock %}
