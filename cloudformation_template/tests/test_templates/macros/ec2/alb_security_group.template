@@ -4,6 +4,6 @@
 
 {% block content %}
     "Resources": {
-        "Ec2": {{ ec2.alb_security_group(name="SecurityGroup1", description="Description2") }}
+        "Ec2": {{ ec2.alb_security_group(name="SecurityGroup1", description="Description2", vpc_id="VpcId") }}
     }
 {% endblock %}

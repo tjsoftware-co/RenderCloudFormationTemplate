@@ -55,7 +55,7 @@
     }
 }
 {% endmacro %}
-{% macro alb_security_group(name, description) %}
+{% macro alb_security_group(name, description, vpc_id) %}
 {
   "Type" : "AWS::EC2::SecurityGroup",
   "Properties" : {
@@ -72,12 +72,13 @@
          "FromPort" : 80,
          "ToPort" : 80,
          "CidrIp" : "0.0.0.0/0"
-      }]
+      }],
+    "VpcID": "{{ vpc_id }}"
   }
 }
 {% endmacro %}
 
-{% macro container_instances_security_group(name, description, alb_security_group) %}
+{% macro container_instances_security_group(name, description, alb_security_group, vpc_id) %}
 {
   "Type" : "AWS::EC2::SecurityGroup",
   "Properties" : {
@@ -100,7 +101,8 @@
          "FromPort" : 0,
          "ToPort" : 65535,
          "SourceSecurityGroupName": "{{ alb_security_group }}"
-      }]
+      }],
+    "VpcId": "{{ vpc_id }}"
   }
 }
 {% endmacro %}
