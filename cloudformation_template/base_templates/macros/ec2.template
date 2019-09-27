@@ -73,7 +73,7 @@
          "ToPort" : 80,
          "CidrIp" : "0.0.0.0/0"
       }],
-    "VpcID": {
+    "VpcId": {
         "Ref": "{{ vpc_id }}"
     }
   }
@@ -104,7 +104,7 @@
          "ToPort" : 65535,
          "SourceSecurityGroupName": "{{ alb_security_group }}"
       }],
-    "VpcID": {
+    "VpcId": {
         "Ref": "{{ vpc_id }}"
     }
   }
