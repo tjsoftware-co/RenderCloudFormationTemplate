@@ -102,7 +102,9 @@
          "IpProtocol" : "-1",
          "FromPort" : 0,
          "ToPort" : 65535,
-         "SourceSecurityGroupName": "{{ alb_security_group }}"
+         "SourceSecurityGroupName": {
+            "Ref": "{{ alb_security_group }}"
+         }
       }],
     "VpcId": {
         "Ref": "{{ vpc_id }}"
