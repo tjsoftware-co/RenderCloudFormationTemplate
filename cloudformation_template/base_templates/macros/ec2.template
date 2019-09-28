@@ -102,9 +102,12 @@
          "IpProtocol" : "-1",
          "FromPort" : 0,
          "ToPort" : 65535,
-         "SourceSecurityGroupName": {
-            "Ref": "{{ alb_security_group }}"
-         }
+         "SourceSecurityGroupId": {
+         "Fn::GetAtt": [
+            "{{ alb_security_group }}",
+            "GroupId"
+         ]
+      }
       }],
     "VpcId": {
         "Ref": "{{ vpc_id }}"
